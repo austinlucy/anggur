@@ -15,12 +15,23 @@ function Navbar() {
         <nav style={s.nav}>
             <div style={s.inner}>
                 <div style={s.brand} onClick={() => navigate("/")}>
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <img 
+                        src="/logo.png" 
+                        alt="AgroScan Logo" 
+                        style={{ height: "36px", width: "auto", objectFit: "contain" }}
+                        onError={(e) => {
+                            e.target.style.display = 'none';
+                            if (e.target.nextSibling) e.target.nextSibling.style.display = 'block';
+                        }}
+                    />
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style={{ display: "none" }}>
                         <rect width="28" height="28" rx="7" fill="#16a34a" />
                         <path d="M9 18c0-5 3-9 8-10-2 3-3 6-3 10" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
                         <path d="M13 18c0-3 2-6 5-7" stroke="#bbf7d0" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
-                    <span style={s.brandText}>AgroScan</span>
+                    <span style={s.brandText}>
+                        <span style={{ color: "#2ea043" }}>Agro</span><span style={{ color: "#7e22ce" }}>Scan</span>
+                    </span>
                 </div>
 
                 <div style={s.links}>

@@ -9,20 +9,42 @@ function HomePage() {
             <section style={hero.section}>
                 <div style={hero.overlay} />
                 <div style={hero.content}>
-                    <p style={hero.label}>Teknologi AI untuk Pertanian</p>
+                    <div style={{ marginBottom: "20px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+                        <img 
+                            src="/logo.png" 
+                            alt="AgroScan Logo" 
+                            style={{ height: "48px", width: "auto", objectFit: "contain" }}
+                            onError={(e) => {
+                                e.target.style.display = 'none';
+                                if (e.target.nextSibling) e.target.nextSibling.style.display = 'block';
+                            }}
+                        />
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                            <svg width="48" height="48" viewBox="0 0 28 28" fill="none" style={{ display: "none" }}>
+                                <rect width="28" height="28" rx="7" fill="#16a34a" />
+                                <path d="M9 18c0-5 3-9 8-10-2 3-3 6-3 10" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+                                <path d="M13 18c0-3 2-6 5-7" stroke="#bbf7d0" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                            <span style={{ fontSize: "36px", fontWeight: "800", letterSpacing: "-0.5px", lineHeight: "1" }}>
+                                <span style={{ color: "#2ea043" }}>Agro</span><span style={{ color: "#7e22ce" }}>Scan</span>
+                            </span>
+                        </div>
+                    </div>
                     <h1 style={hero.title}>
-                        Deteksi Penyakit Tanaman Anggur<br />dalam Hitungan Detik
+                        Scan Daun Anggur<br />untuk Mendeteksi<br />Penyakit Tanaman
                     </h1>
                     <p style={hero.desc}>
-                        Cukup foto daun tanaman Anggur Anda, dan AgroScan akan mengidentifikasi
-                        penyakit beserta rekomendasi penanganannya secara instan.
+                        Identifikasi penyakit tanaman anggur secara instan dari<br />foto daun.
                     </p>
                     <div style={hero.actions}>
-                        <button onClick={() => navigate("/scan")} style={hero.primaryBtn}>
-                            Mulai Diagnosis
-                        </button>
-                        <button onClick={() => navigate("/tentang")} style={hero.ghostBtn}>
-                            Pelajari Lebih Lanjut
+                        <button onClick={() => navigate("/scan")} style={{ ...hero.primaryBtn, display: "flex", alignItems: "center" }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: "8px" }}>
+                                <path d="M4 8V6a2 2 0 0 1 2-2h2"></path>
+                                <path d="M4 16v2a2 2 0 0 0 2 2h2"></path>
+                                <path d="M16 4h2a2 2 0 0 1 2 2v2"></path>
+                                <path d="M16 20h2a2 2 0 0 0 2-2v-2"></path>
+                            </svg>
+                            Scan Daun
                         </button>
                     </div>
                 </div>
