@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'config/theme.dart';
-import 'providers/auth_provider.dart';
+import 'screens/home_screen.dart';
+import 'providers/deteksi_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,21 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DeteksiProvider()),
+      ],
       child: MaterialApp(
-        title: 'AgroScan',
+        title: 'KingScan',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.theme,
-        home: const Scaffold(
-          body: Center(
-            child: Text(
-              'AgroScan\n(Screen belum diimplementasi)',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          useMaterial3: true,
         ),
+        home: const HomeScreen(),
       ),
     );
   }

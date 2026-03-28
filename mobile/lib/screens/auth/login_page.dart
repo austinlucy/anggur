@@ -1,4 +1,3 @@
-// TODO: Implementasi halaman login
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
