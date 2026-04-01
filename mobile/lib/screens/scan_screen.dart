@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 import '../providers/deteksi_provider.dart';
 import '../models/deteksi_result_model.dart';
+import '../services/api_service.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
@@ -13,6 +14,7 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
+  static const double MIN_CONFIDENCE = 0.6;
   bool _isLoading = false;
   File? _selectedImage;
   final ImagePicker _imagePicker = ImagePicker();
@@ -183,6 +185,31 @@ class _ScanScreenState extends State<ScanScreen> {
                         height: 1.6,
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.info, size: 18, color: Colors.orange),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Hasil hanya valid jika confidence ≥ ${(MIN_CONFIDENCE * 100).toStringAsFixed(0)}%',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.orange,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -239,17 +266,40 @@ class _ScanScreenState extends State<ScanScreen> {
     });
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      final result = await ApiService.predict(_selectedImage!);
 
       if (!mounted) return;
+
+      if (result['statusCode'] != 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${result['data']['message'] ?? 'Prediksi gagal'}')),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final prediction = result['data'];
+      final confidence = (prediction['confidence'] ?? 0.0).toDouble();
+
+      if (confidence < MIN_CONFIDENCE) {
+        if (!mounted) return;
+        _showInvalidDialog(context, confidence);
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final rekomendasi = _getRekomendasi(prediction['penyakit']);
 
       final deteksiResult = DeteksiResult(
         imagePath: _selectedImage!.path,
         namaGambar: _selectedImage!.path.split('/').last,
-        resultPenyakit: 'Penyakit Terdeteksi: Bercak Daun',
-        confidence: 0.87,
-        rekomendasi:
-            'Gunakan fungisida dan jaga kelembaban tanaman tetap stabil',
+        resultPenyakit: prediction['penyakit'] ?? 'Tidak diketahui',
+        confidence: confidence,
+        rekomendasi: rekomendasi,
         waktu: DateTime.now(),
       );
 
@@ -279,6 +329,97 @@ class _ScanScreenState extends State<ScanScreen> {
           _isLoading = false;
         });
       }
+    }
+  }
+
+  void _showInvalidDialog(BuildContext context, double confidence) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Hasil Tidak Valid'),
+        icon: const Icon(Icons.error_outline, color: Colors.orange, size: 32),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Gambar yang diupload kemungkinan bukan tanaman atau kualitasnya tidak cukup baik.',
+              style: TextStyle(fontSize: 14),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Confidence Score: ${(confidence * 100).toStringAsFixed(1)}%',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Minimum required: ${(MIN_CONFIDENCE * 100).toStringAsFixed(0)}%',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Pastikan:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '• Foto adalah tanaman anggur\n'
+              '• Gambar jelas dan tidak blur\n'
+              '• Pencahayaan cukup baik\n'
+              '• Fokus pada area yang menunjukkan gejala',
+              style: TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Coba Lagi'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              setState(() {
+                _selectedImage = null;
+              });
+            },
+            child: const Text('Batal', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getRekomendasi(String penyakit) {
+    switch (penyakit.toLowerCase()) {
+      case 'black measles':
+        return 'Cabut dan bakar daun yang terinfeksi. Gunakan fungisida sulfur atau tembaga.';
+      case 'black rot':
+        return 'Potong bagian yang membusuk. Berikan fungisida sistemik dan jaga ventilasi.';
+      case 'healthy':
+        return 'Tanaman sehat! Lanjutkan perawatan rutin dan monitoring teratur.';
+      case 'isariopsis leaf spot':
+        return 'Singkirkan daun yang terkena. Aplikasikan fungisida dan jaga kelembaban optimal.';
+      default:
+        return 'Konsultasi dengan ahli pertanian untuk penanganan lebih lanjut.';
     }
   }
 
