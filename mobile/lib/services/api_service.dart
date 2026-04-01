@@ -18,8 +18,6 @@ class ApiService {
     };
   }
 
-  // ==================== AUTH ====================
-
   static Future<Map<String, dynamic>> login(
       String email, String password) async {
     final response = await http.post(
@@ -74,8 +72,6 @@ class ApiService {
     return token != null;
   }
 
-  // ==================== DETEKSI ====================
-
   static Future<Map<String, dynamic>> predict(File imageFile) async {
     final token = await _getToken();
     final request = http.MultipartRequest(
@@ -97,8 +93,6 @@ class ApiService {
 
     return {'statusCode': response.statusCode, 'data': data};
   }
-
-  // ==================== RIWAYAT ====================
 
   static Future<Map<String, dynamic>> getRiwayat() async {
     final headers = await _authHeaders();

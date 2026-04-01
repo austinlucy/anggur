@@ -21,8 +21,9 @@ class MyApp extends StatelessWidget {
         title: 'KingScan',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF16A34A)),
           useMaterial3: true,
+          fontFamily: 'Poppins',
         ),
         home: const HomeScreen(),
       ),

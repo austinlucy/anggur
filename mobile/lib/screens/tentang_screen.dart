@@ -11,22 +11,20 @@ class TentangScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 24),
-            // Logo
             Container(
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: const Color(0xFF16A34A).withOpacity(0.08),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: const Icon(
                 Icons.eco,
                 size: 60,
-                color: Colors.green,
+                color: Color(0xFF16A34A),
               ),
             ),
             const SizedBox(height: 24),
-            // App Name
             const Text(
               'KingScan',
               style: TextStyle(
@@ -35,7 +33,6 @@ class TentangScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            // Version
             Text(
               'Versi 1.0.0',
               style: TextStyle(
@@ -44,7 +41,6 @@ class TentangScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            // Deskripsi
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -61,7 +57,6 @@ class TentangScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            // Fitur
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -78,11 +73,10 @@ class TentangScreen extends StatelessWidget {
             _buildFeatureItem('🤖', 'Analisis AI', 'Teknologi AI terdepan untuk deteksi akurat'),
             _buildFeatureItem('💾', 'Riwayat Deteksi', 'Simpan dan lihat riwayat deteksi Anda'),
             const SizedBox(height: 24),
-            // Developer Info
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: const Color(0xFF0EA5E9).withOpacity(0.08),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(

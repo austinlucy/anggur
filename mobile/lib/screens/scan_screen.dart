@@ -25,14 +25,13 @@ class _ScanScreenState extends State<ScanScreen> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            // Image Preview
             if (_selectedImage != null)
               Container(
                 width: double.infinity,
                 height: 250,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.green, width: 2),
+                  border: Border.all(color: const Color(0xFF16A34A), width: 2),
                 ),
                 child: Image.file(
                   _selectedImage!,
@@ -44,18 +43,17 @@ class _ScanScreenState extends State<ScanScreen> {
                 width: double.infinity,
                 height: 250,
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: const Color(0xFF16A34A).withOpacity(0.08),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.green, width: 2),
+                  border: Border.all(color: const Color(0xFF16A34A), width: 2),
                 ),
                 child: const Icon(
                   Icons.image_not_supported,
                   size: 80,
-                  color: Colors.green,
+                  color: Color(0xFF16A34A),
                 ),
               ),
             const SizedBox(height: 24),
-            // Title
             const Text(
               'Deteksi Penyakit Tanaman',
               style: TextStyle(
@@ -65,7 +63,6 @@ class _ScanScreenState extends State<ScanScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
-            // Subtitle
             Text(
               _selectedImage != null
                   ? 'Foto tanaman sudah siap untuk dianalisis'
@@ -77,23 +74,22 @@ class _ScanScreenState extends State<ScanScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
-            // Button Scan dari Kamera
             SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton.icon(
                 onPressed: _isLoading ? null : _scanFromCamera,
-                icon: const Icon(Icons.camera),
+                icon: const Icon(Icons.camera_alt),
                 label: const Text('Ambil Foto Kamera'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: const Color(0xFF16A34A),
                   foregroundColor: Colors.white,
                   disabledBackgroundColor: Colors.grey,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
             ),
             const SizedBox(height: 12),
-            // Button Upload dari Galeri
             SizedBox(
               width: double.infinity,
               height: 56,
@@ -101,10 +97,14 @@ class _ScanScreenState extends State<ScanScreen> {
                 onPressed: _isLoading ? null : _scanFromGallery,
                 icon: const Icon(Icons.image),
                 label: const Text('Pilih dari Galeri'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF16A34A),
+                  side: const BorderSide(color: Color(0xFF16A34A), width: 2),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
               ),
             ),
             const SizedBox(height: 12),
-            // Button Simpan Hasil
             if (_selectedImage != null)
               SizedBox(
                 width: double.infinity,
@@ -117,21 +117,19 @@ class _ScanScreenState extends State<ScanScreen> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Icon(Icons.save),
-                  label: Text(_isLoading ? 'Menyimpan...' : 'Simpan Hasil'),
+                      : const Icon(Icons.check_circle),
+                  label: Text(_isLoading ? 'Menyimpan...' : 'Analisis Sekarang'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: const Color(0xFF0EA5E9),
                     foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
               ),
-            if (_selectedImage != null)
-              const SizedBox(height: 12),
-            // Button Batal
+            if (_selectedImage != null) const SizedBox(height: 12),
             if (_selectedImage != null)
               SizedBox(
                 width: double.infinity,
@@ -142,31 +140,33 @@ class _ScanScreenState extends State<ScanScreen> {
                   label: const Text('Batal'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.red,
+                    side: const BorderSide(color: Colors.red, width: 2),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
               ),
             if (_selectedImage == null) const SizedBox(height: 32),
             if (_selectedImage == null)
-              // Info Box
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
+                  color: const Color(0xFF0EA5E9).withOpacity(0.08),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.blue, width: 1),
+                  border: Border.all(color: const Color(0xFF0EA5E9), width: 1.5),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Row(
                       children: [
-                        Icon(Icons.info, color: Colors.blue),
+                        Icon(Icons.lightbulb, color: Color(0xFF0EA5E9)),
                         SizedBox(width: 8),
                         Text(
                           'Tips untuk Hasil Terbaik',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: Color(0xFF0EA5E9),
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -180,6 +180,7 @@ class _ScanScreenState extends State<ScanScreen> {
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],
+                        height: 1.6,
                       ),
                     ),
                   ],
@@ -238,7 +239,6 @@ class _ScanScreenState extends State<ScanScreen> {
     });
 
     try {
-      // Simulasi analisis AI (dalam real app, akan memanggil backend API)
       await Future.delayed(const Duration(seconds: 2));
 
       if (!mounted) return;

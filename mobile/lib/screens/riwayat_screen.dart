@@ -15,7 +15,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
   @override
   void initState() {
     super.initState();
-    // Load data saat screen pertama kali dibuka
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<DeteksiProvider>().loadDeteksiResults();
     });
@@ -61,11 +60,13 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                 const SizedBox(height: 24),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Navigate ke Scan
                     DefaultTabController.of(context).animateTo(0);
                   },
-                  icon: const Icon(Icons.camera),
+                  icon: const Icon(Icons.camera_alt),
                   label: const Text('Mulai Scan'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF16A34A),
+                  ),
                 ),
               ],
             ),
@@ -83,10 +84,10 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
             return Card(
               elevation: 2,
               margin: const EdgeInsets.only(bottom: 12),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image Preview
                   if (File(result.imagePath).existsSync())
                     ClipRRect(
                       borderRadius: const BorderRadius.only(
@@ -103,13 +104,11 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                         ),
                       ),
                     ),
-                  // Content
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Tanggal dan Waktu
                         Text(
                           formattedDate,
                           style: TextStyle(
@@ -118,7 +117,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        // Hasil Deteksi
                         if (result.resultPenyakit != null)
                           Text(
                             result.resultPenyakit!,
@@ -140,19 +138,18 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                                 style: const TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green,
+                                  color: Color(0xFF16A34A),
                                 ),
                               ),
                             ],
                           ),
                         ],
-                        // Rekomendasi
                         if (result.rekomendasi != null) ...[
                           const SizedBox(height: 12),
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.1),
+                              color: Colors.orange.withOpacity(0.08),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: Colors.orange.withOpacity(0.3),
@@ -180,7 +177,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                       ],
                     ),
                   ),
-                  // Delete Button
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: SizedBox(
@@ -191,6 +187,7 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                         label: const Text('Hapus'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.red,
+                          side: const BorderSide(color: Colors.red),
                         ),
                       ),
                     ),

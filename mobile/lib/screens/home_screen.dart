@@ -23,9 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AgroScan'),
+        title: const Text(
+          'KingScan',
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+        ),
         centerTitle: true,
         elevation: 0,
+        backgroundColor: const Color(0xFF16A34A),
       ),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -44,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: const Color(0xFF16A34A),
+        unselectedItemColor: Colors.grey[400],
         onTap: (index) {
           setState(() {
             _selectedIndex = index;

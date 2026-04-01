@@ -17,7 +17,7 @@ class DeteksiProvider extends ChangeNotifier {
     try {
       _deteksiResults = await _dbService.getAllDeteksiResults();
     } catch (e) {
-      print('Error loading deteksi results: $e');
+      rethrow;
     }
 
     _isLoading = false;
@@ -29,7 +29,7 @@ class DeteksiProvider extends ChangeNotifier {
       await _dbService.insertDeteksiResult(result);
       await loadDeteksiResults();
     } catch (e) {
-      print('Error adding deteksi result: $e');
+      rethrow;
     }
   }
 
@@ -38,7 +38,7 @@ class DeteksiProvider extends ChangeNotifier {
       await _dbService.deleteDeteksiResult(id);
       await loadDeteksiResults();
     } catch (e) {
-      print('Error deleting deteksi result: $e');
+      rethrow;
     }
   }
 
@@ -47,7 +47,7 @@ class DeteksiProvider extends ChangeNotifier {
       await _dbService.deleteAllDeteksiResults();
       await loadDeteksiResults();
     } catch (e) {
-      print('Error clearing deteksi results: $e');
+      rethrow;
     }
   }
 }

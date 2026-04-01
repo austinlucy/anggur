@@ -42,13 +42,11 @@ class DatabaseService {
     ''');
   }
 
-  // Create / Save
   Future<int> insertDeteksiResult(DeteksiResult result) async {
     final db = await database;
     return db.insert('deteksi_results', result.toMap());
   }
 
-  // Read All
   Future<List<DeteksiResult>> getAllDeteksiResults() async {
     final db = await database;
     final results = await db.query(
@@ -58,7 +56,6 @@ class DatabaseService {
     return results.map((map) => DeteksiResult.fromMap(map)).toList();
   }
 
-  // Read by ID
   Future<DeteksiResult?> getDeteksiResultById(int id) async {
     final db = await database;
     final results = await db.query(
@@ -72,7 +69,6 @@ class DatabaseService {
     return null;
   }
 
-  // Delete
   Future<int> deleteDeteksiResult(int id) async {
     final db = await database;
     return db.delete(
@@ -82,13 +78,11 @@ class DatabaseService {
     );
   }
 
-  // Delete All
   Future<int> deleteAllDeteksiResults() async {
     final db = await database;
     return db.delete('deteksi_results');
   }
 
-  // Get Count
   Future<int> getCount() async {
     final db = await database;
     final result = await db.rawQuery('SELECT COUNT(*) as count FROM deteksi_results');
