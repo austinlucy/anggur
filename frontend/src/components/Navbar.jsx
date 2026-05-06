@@ -124,7 +124,7 @@ function Navbar() {
                                         ⚙️ Admin
                                     </button>
                                 )}
-                                <div className="navbar__avatar">
+                                <div className="navbar__avatar" onClick={() => { navigate("/profile"); closeMenu(); }} title="Lihat Profil" style={{ cursor: "pointer" }}>
                                     {user.nama?.charAt(0).toUpperCase()}
                                 </div>
                                 <button

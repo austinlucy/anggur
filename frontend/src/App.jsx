@@ -8,6 +8,7 @@ import RiwayatPage from "./views/riwayat/RiwayatPage";
 import TentangPage from "./views/tentang/TentangPage";
 import LoginPage from "./views/auth/LoginPage";
 import RegisterPage from "./views/auth/RegisterPage";
+import ProfilePage from "./views/profile/ProfilePage";
 import AdminDashboard from "./views/admin/AdminDashboard";
 import PenggunaAdmin from "./views/admin/PenggunaAdmin";
 import PenyakitAdmin from "./views/admin/PenyakitAdmin";
@@ -62,6 +63,7 @@ function PublicLayout() {
                     <Route path="/tentang" element={<TentangPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                     <Route path="/riwayat" element={<ProtectedRoute><RiwayatPage /></ProtectedRoute>} />
                 </Routes>
             </div>

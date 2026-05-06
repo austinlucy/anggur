@@ -158,9 +158,9 @@ function ScanPage() {
 
                     {/* Filter Info Card */}
                     <div style={{ ...p.infoCard, background: "#fefce8", borderColor: "#fef08a" }}>
-                        <h3 style={{ ...p.infoTitle, color: "#854d0e" }}>🛡️ Filter Cerdas YOLO</h3>
+                        <h3 style={{ ...p.infoTitle, color: "#854d0e" }}>🛡️ Filter Cerdas CNN</h3>
                         <p style={{ fontSize: "14px", color: "#713f12", lineHeight: 1.7, margin: 0 }}>
-                            Sistem kami menggunakan model <strong>YOLO</strong> yang secara otomatis mendeteksi dan mengklasifikasikan
+                            Sistem kami menggunakan model <strong>CNN (Convolutional Neural Network)</strong> yang secara otomatis mendeteksi dan mengklasifikasikan
                             penyakit pada <strong>daun anggur</strong>. Jika tidak terdeteksi daun anggur pada gambar,
                             maka gambar akan otomatis ditolak.
                         </p>
@@ -171,7 +171,7 @@ function ScanPage() {
                         <h3 style={p.infoTitle}>Tentang Model AI</h3>
                         <div style={p.statsGrid}>
                             <div style={p.statItem}>
-                                <p style={p.statVal}>YOLOv8</p>
+                                <p style={p.statVal}>CNN</p>
                                 <p style={p.statLabel}>Arsitektur</p>
                             </div>
                             <div style={p.statItem}>
@@ -195,7 +195,7 @@ function ScanPage() {
                         <div style={p.stepsList}>
                             {[
                                 "Upload atau foto daun anggur",
-                                "YOLO mendeteksi & mengklasifikasi penyakit",
+                                "CNN menganalisis & mengklasifikasi penyakit",
                                 "Jika bukan daun anggur, gambar ditolak",
                                 "Hasil diagnosis & rekomendasi ditampilkan",
                             ].map((step, i) => (
